@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<script src="js/exif.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<img id="imgElement" src="img/67E981157D040C7C21D58C593157A571.jpg" />
+		<script src="js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.exif.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				EXIF.getData(document.getElementById('imgElement'), function() {
+					EXIF.getAllTags(this);
+					EXIF.getTag(this, 'Orientation');
+					console.log(EXIF.pretty(this));
+					console.log(EXIF.getAllTags(this));
+					console.log(EXIF.getTag(this, 'GPSSatellites'));
+				});
+			})
+		</script>
+		<script type="text/javascript">
+			$().ready(function() {
+				function change_latlng(latlng) { //经纬度转换为十进制     
+					var arr = latlng;
+					return arr[0][0] + arr[0][1] / 60 + arr[0][2] / 3600;
+				}
+				$("#imgElement").click(function() {
+					var lat_ref = $(this).exif("GPSLatitudeRef"); //
+					if(typeof lat_ref[0] == "undefined") {
+						alert("图片没有GPS信息");
+						return false;
+					}
+					var lat = $(this).exif("GPSLatitude"); //纬度
+					var lng = $(this).exif("GPSLongitude"); //经度
+					var lng_ref = $(this).exif("GPSLongitudeRef"); //
+
+					if(lng_ref == "E") {
+						var lng_s = "东经：";
+					} else {
+						var lng_s = "西经：";
+					}
+					if(lat_ref == "N") {
+						var lat_s = "北纬：";
+					} else {
+						var lat_s = "南纬：";
+					}
+
+					alert(lat_s + change_latlng(lat) + "\r\n" + lng_s + change_latlng(lng));
+
+					//alert("Longitude: "+$(this).exif("GPSLongitude")+",latitude:"+$(this).exif("GPSLatitude"));
+				});
+			});
+		</script>
+	</body>
+
+</html>

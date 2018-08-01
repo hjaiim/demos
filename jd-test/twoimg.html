@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <title></title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 200px;
+            overflow: hidden;
+        }
+        img {
+            position: absolute;
+            width: 100%;
+            display: block;
+            -moz-user-select:none;
+            -webkit-user-select:none;
+            user-select:none;
+        }
+        .img1 {
+            z-index: 20;
+        }
+        .img2 {
+            z-index: 10;
+        }
+        .handler {
+            position: absolute;
+            width: 38px;
+            height: 38px;
+            top: 50%;
+            left: 50%;
+            margin-left: -22px;
+            margin-top: -22px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            -webkit-box-shadow: 0 0 12px rgba(51, 51, 51, .5);
+            -moz-box-shadow: 0 0 12px rgba(51, 51, 51, .5);
+            box-shadow: 0 0 12px rgba(51, 51, 51, .5);
+            z-index: 40;
+            cursor: pointer;
+        }
+        .handler::before, .handler::after {
+            width: 3px;
+            height: 99999px;
+            left: 50%;
+            margin-left: -1.5px;
+            content: ' ';
+            display: block;
+            background-color: #fff;
+            position: absolute;
+            z-index: 30;
+            -webkit-box-shadow: 0 0 12px rgba(51, 51, 51, 0.5);
+            -moz-box-shadow: 0 0 12px rgba(51, 51, 51, 0.5);
+            box-shadow: 0 0 12px rgba(51, 51, 51, 0.5);
+        }
+        .handler::before {
+            bottom: 50%;
+            margin-bottom: 22px;
+            -webkit-box-shadow: 0 3px 0 #fff, 0 0 12px rgba(51, 51, 51, .5);
+            -moz-box-shadow: 0 3px 0 #fff, 0 0 12px rgba(51, 51, 51, .5);
+            box-shadow: 0 3px 0 #fff, 0 0 12px rgba(51, 51, 51, .5);
+        }
+        .left-arrow, .right-arrow {
+            top: 50%;
+            margin-top: -6px;
+            width: 0;
+            height: 0;
+            border: 6px inset transparent;
+            position: absolute;
+        }
+        .left-arrow {
+            border-right: 6px solid #fff;
+            left: 50%;
+            margin-left: -17px;
+        }
+        .right-arrow {
+            border-left: 6px solid #fff;
+            right: 50%;
+            margin-right: -17px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="img1" src="summary04_after.jpg">
+        <img class="img2" src="summary04_before.jpg">
+        <div class="handler">
+            <span class="left-arrow"></span>
+            <span class="right-arrow"></span>
+        </div>
+    </div>
+<script src="jquery-2.2.2.min.js"></script>
+<script>
+    var unlock = 0;
+    var IMG_SCALE = 0.469;
+
+    reset();
+    $(window).resize(reset);
+    
+    function reset() {
+    	alert('nnnn');
+        $('.container').height(IMG_SCALE * $(window).width());
+        clipX(0.5*$(window).width());
+    }
+    $('.handler').on('mousedown', function() {
+        unlock = 1;
+    });
+    $(window).on({
+        'mousemove': function() {
+            if(unlock) {
+                clipX(event.clientX);
+                if(event.clientX > $(window).width()) {
+                    clipX($(window).width());
+                }else if(event.clientX < 0) {
+                    clipX(0);
+                }
+            }
+        },
+        'mouseup': function() {
+            unlock = 0;
+        }
+    });
+    
+    function clipX(x) {
+        $('.handler').css('left', x);
+        $('.img1').css('clip', 'rect(0 ' + x + 'px '+ IMG_SCALE*$(window).width() +'px 0)');
+    }
+</script>
+</body>
+</html> 

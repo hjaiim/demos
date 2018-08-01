@@ -1,0 +1,45 @@
+@charset "utf-8";
+/**
+ * css Reset
+ * Created by JDoer on 2015/12/18.
+ */
+
+body, div, ul, ol, li,
+h1, h2, h3, h4, h5, h6,
+form, fieldset, input, button,
+textarea, p, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    color: #000;
+    background: #eeeeee;
+    font: 14px/1.5 'Helvetica Neue',Arial,'Hiragino Sans GB',STHeiti,'STHeiti Light [STXihei]','Microsoft Yahei',sans-serif;
+}
+
+body {
+    position: relative;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    border: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
